@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/main.css">
+    <style>
+        body {
+            background-image: url('<%= weather.unsplashImage %>');
+
+        }
+    </style>
+
+    <title>Weather App</title>
+</head>
+
+<body class="container mt-5">
+
+    <div class="container">
+
+        <a href="/" class="text-decoration-none">
+            <h1 class="text-center">Weather Information</h1>
+        </a>
+
+        <form action="/weather" method="get" class="text-center">
+            <div class="form-group">
+                <label for="city">Enter city:</label>
+                <input type="text" id="city" name="city" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Get Weather</button>
+        </form>
+
+        <% if (typeof weather !=='undefined' && weather) { %>
+            <div class="mt-5 mx-auto text-center">
+                <h2 class="mb-4">Current Weather</h2>
+
+                <div class="weather-info">
+                    <p class="info-item"><strong>Temperature:</strong>
+                        <%= weather.temp %>°C
+                    </p>
+                    <p class="info-item"><strong>Description:</strong>
+                        <%= weather.description %>
+                    </p>
+                    <img src="<%= weather.imgURL %>" alt="Weather Icon" class="weather-icon img-fluid">
+                </div>
+
+                <div class="weather-details">
+                    <p class="info-item"><strong>Coordinates:</strong>
+                        <%= weather.coordinates.lat %>, <%= weather.coordinates.lon %>
+                    </p>
+                    <p class="info-item"><strong>Feels Like:</strong>
+                        <%= weather.feelsLike %>°C
+                    </p>
+                    <p class="info-item"><strong>Humidity:</strong>
+                        <%= weather.humidity %>%
+                    </p>
+                    <p class="info-item"><strong>Pressure:</strong>
+                        <%= weather.pressure %> hPa
+                    </p>
+                    <p class="info-item"><strong>Wind Speed:</strong>
+                        <%= weather.windSpeed %> m/s
+                    </p>
+                    <p class="info-item"><strong>Country Code:</strong>
+                        <%= weather.countryCode %>
+                    </p>
+                    <p class="info-item"><strong>Rain Volume (last 3 hours):</strong>
+                        <%= weather.rainVolumeLast3Hours %>
+                    </p>
+                </div>
+            </div>
+
+            <% if (placeDetails && placeDetails.candidates && placeDetails.candidates.length> 0) { %>
+                <div class="place-details mt-4">
+                    <h3>Place Details</h3>
+                    <p><strong>Name:</strong>
+                        <%= placeDetails.candidates[0].name %>
+                    </p>
+                    <p><strong>Address:</strong>
+                        <%= placeDetails.candidates[0].formatted_address %>
+                    </p>
+                </div>
+                <% } %>
+
+
+                    <% if (typeof weather !=='undefined' && weather) { %>
+                        <div class="mt-5 mx-auto text-center">
+
+                            <div class="covid19-stats mt-4">
+                                <h3>COVID-19 Statistics</h3>
+                                <p><strong>Cases:</strong>
+                                    <%= weather.covid19Stats.cases %>
+                                </p>
+                                <p style="color:darkred;"><strong>Deaths:</strong>
+                                    <%= weather.covid19Stats.deaths %>
+                                </p>
+                                <p><strong>Recovered:</strong>
+                                    <%= weather.covid19Stats.recovered %>
+                                </p>
+                                <p style="color:darkred;"><strong>Active:</strong>
+                                    <%= weather.covid19Stats.active %>
+                                </p>
+                                <p><strong>Continent:</strong>
+                                    <%= weather.covid19Stats.continent %>
+                                </p>
+                            </div>
+                        </div>
+                        <% } %>
+
+
+
+                            <div id="googleMap"></div>
+                            <br>
+                            <br>
+
+                            <footer class="mt-5 text-center">
+                                <hr>
+                                <h2>Sarvarov Mustafa | Group: SE-2203</h2>
+                            </footer>
+
+
+    </div>
+
+
+
+    <script>
+        function initMap() {
+            var myCenter = new google.maps.LatLng(<%= weather.coordinates.lat %>, <%= weather.coordinates.lon %>);
+
+            var mapProp = {
+                center: myCenter,
+                zoom: 10,
+            };
+
+            var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+
+            var marker = new google.maps.Marker({
+                position: myCenter,
+                animation: google.maps.Animation.BOUNCE
+            });
+
+            marker.setMap(map);
+        }
+    </script>
+
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSNERGFARriiKLB-9Y82Uv6oUoGvUZUmU&callback=initMap"></script>
+    <% } %>
+
+        <!-- Google Maps api key - AIzaSyBSNERGFARriiKLB-9Y82Uv6oUoGvUZUmU -->
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
