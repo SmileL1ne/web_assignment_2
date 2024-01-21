@@ -18,3 +18,4 @@ Weather app shows current in inputed country/city
 - To correctly use COVID-19 API you should enter **only countries** in search bar, because there is no city specific COVID info
 - Project uses Clean Architecture to utilize every file as needed, separating templates in 'views', static files as 'public' and routes in 'routes'
 - Bootstrap is used to style website
+- Background is changing depending on weather in inputed city/country (it may not always be 100% correct)
